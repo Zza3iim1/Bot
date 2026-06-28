@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: sans-serif; background: #111; color: #fff; padding: 20px; }
+        button { background: #E50914; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h2>مرحباً بك في تطبيق الزعيم 🎬</h2>
+    <p id="user-info">جاري التحقق من هويتك...</p>
+    
+    <button onclick="sendDataToBot()">إرسال بيانات للبوت</button>
+
+    <script>
+        // 1. تهيئة التطبيق
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // يفتح التطبيق بكامل الشاشة
+
+        // 2. عرض بيانات المستخدم (اسم المستخدم اللي فاتح التطبيق)
+        document.getElementById('user-info').innerText = 
+            "أهلاً يا " + (tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : "مستخدم");
+
+        // 3. وظيفة إرسال بيانات من التطبيق للبوت (مهمة جداً للبيع والشراء)
+        function sendDataToBot() {
+            tg.sendData("تم الضغط على زر الشراء من داخل التطبيق!");
+        }
+    </script>
+</body>
+</html>
