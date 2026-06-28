@@ -5,37 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; padding: 10px; }
-        .movie-card { background: #1a1a1a; padding: 10px; margin: 10px; border-radius: 8px; border: 1px solid #e50914; }
-        input { padding: 8px; width: 70%; border-radius: 5px; }
-        button { background: #e50914; color: #fff; padding: 8px 15px; border: none; border-radius: 5px; }
+        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; }
+        .movie-card { background: #1a1a1a; padding: 15px; margin: 10px; border-radius: 10px; border: 1px solid #e50914; }
+        #admin-panel { display: none; background: #222; padding: 20px; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <h1>🎬 سينما الزعيم العالمية</h1>
-    <div id="movies">جاري جلب الأفلام...</div>
+    <h1>🎬 سينما الزعيم</h1>
+    <div id="movies">جاري تحميل الأفلام...</div>
     
-    <div style="margin-top:20px; border-top: 1px solid #333; padding-top:10px;">
-        <input type="password" id="pass" placeholder="باسورد الأدمين...">
+    <div style="margin-top:40px;">
+        <input type="password" id="pass" placeholder="كود الأدمين...">
         <button onclick="checkAdmin()">دخول الأدمين</button>
-        <div id="admin-panel" style="display:none; margin-top:10px;">🛠️ لوحة الأدمين: أضف روابط دفع يدوية هنا</div>
+    </div>
+    <div id="admin-panel">
+        <h3>🛠️ لوحة تحكم الأدمين</h3>
+        <p>مرحباً يا زعيم، هنا ستدير اشتراكاتك.</p>
     </div>
 
     <script>
-        // ربط API الأفلام (TMDB)
+        // 1. جلب أفلام حقيقية من الإنترنت
         fetch('https://api.themoviedb.org/3/movie/popular?api_key=545c45388c644d5c093a02a4d3390f7d&language=ar-AR')
         .then(res => res.json()).then(data => {
             const container = document.getElementById('movies');
+            container.innerHTML = '';
             data.results.forEach(m => {
-                container.innerHTML += `<div class="movie-card"><h3>${m.title}</h3><p>${m.overview.substring(0,50)}...</p></div>`;
+                container.innerHTML += `<div class="movie-card"><h3>${m.title}</h3><button onclick="alert('جاري التحويل للدفع...')">شراء / مشاهدة</button></div>`;
             });
         });
 
+        // 2. تفعيل لوحة الأدمين
         function checkAdmin() {
             if(document.getElementById('pass').value === "Zza3iim2137321701") {
                 document.getElementById('admin-panel').style.display = "block";
-                alert("تم الدخول للوحة التحكم!");
-            } else { alert("باسورد غلط يا زعيم!"); }
+            } else { alert("كود خطأ!"); }
         }
     </script>
 </body>
