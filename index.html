@@ -5,40 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; }
-        .movie-card { background: #1a1a1a; padding: 15px; margin: 10px; border-radius: 10px; border: 1px solid #e50914; }
-        #admin-panel { display: none; background: #222; padding: 20px; margin-top: 20px; }
+        body { background: #050505; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
+        h1 { color: #e50914; text-align: center; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { background: #111; border-radius: 12px; padding: 10px; border: 1px solid #333; }
+        button { background: #e50914; color: #fff; border: none; padding: 10px; width: 100%; border-radius: 6px; font-weight: bold; }
+        #admin { background: #222; padding: 15px; margin-top: 20px; border-radius: 10px; display: none; }
     </style>
 </head>
 <body>
-    <h1>🎬 سينما الزعيم</h1>
-    <div id="movies">جاري تحميل الأفلام...</div>
+    <h1>🎬 مكتبة الزعيم</h1>
+    <div class="grid" id="movies">جاري التحميل...</div>
     
-    <div style="margin-top:40px;">
-        <input type="password" id="pass" placeholder="كود الأدمين...">
-        <button onclick="checkAdmin()">دخول الأدمين</button>
-    </div>
-    <div id="admin-panel">
-        <h3>🛠️ لوحة تحكم الأدمين</h3>
-        <p>مرحباً يا زعيم، هنا ستدير اشتراكاتك.</p>
+    <div id="admin">
+        <h3>🛠️ لوحة الإدارة</h3>
+        <p>نظام الدفع اليدوي مفعل</p>
     </div>
 
+    <input type="password" id="pass" placeholder="كود الأدمين" style="width: 100%; padding: 10px; margin-top: 20px;">
+    <button onclick="check()" style="background: #333; margin-top: 10px;">دخول</button>
+
     <script>
-        // 1. جلب أفلام حقيقية من الإنترنت
+        window.Telegram.WebApp.expand();
+        
+        // جلب الأفلام
         fetch('https://api.themoviedb.org/3/movie/popular?api_key=545c45388c644d5c093a02a4d3390f7d&language=ar-AR')
         .then(res => res.json()).then(data => {
-            const container = document.getElementById('movies');
-            container.innerHTML = '';
+            const div = document.getElementById('movies');
+            div.innerHTML = '';
             data.results.forEach(m => {
-                container.innerHTML += `<div class="movie-card"><h3>${m.title}</h3><button onclick="alert('جاري التحويل للدفع...')">شراء / مشاهدة</button></div>`;
+                div.innerHTML += `<div class="card"><h4>${m.title}</h4><button>مشاهدة</button></div>`;
             });
         });
 
-        // 2. تفعيل لوحة الأدمين
-        function checkAdmin() {
+        function check() {
             if(document.getElementById('pass').value === "Zza3iim2137321701") {
-                document.getElementById('admin-panel').style.display = "block";
-            } else { alert("كود خطأ!"); }
+                document.getElementById('admin').style.display = "block";
+            } else { alert("كود خطأ"); }
         }
     </script>
 </body>
